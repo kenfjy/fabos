@@ -15,7 +15,7 @@ class Application(tornado.web.Application):
             (r"/", FileHandler),
             (r"/printer.*", PrinterHandler),
             (r"/confirm.*", ConfirmHandler),
-            (r"/printFile.*", PrinterHandler),
+            (r"/printfile.*", PrintFileHandler),
             (r"/uploads/^(.*)",tornado.web.StaticFileHandler, {"path": "./uploads"},),
         ]
         settings = dict(
@@ -92,7 +92,7 @@ class ConfirmHandler(tornado.web.RequestHandler):
         self.write("you have chosen " + p)
 
 # handles printing confirmation
-class PrinterHandler(tornado.web.RequestHandler):
+class PrintFileHandler(tornado.web.RequestHandler):
     def get(self):
         global c, f, p
         if f is None:
@@ -133,7 +133,7 @@ def main():
 
     cups.setServer("localhost")
     application = Application()
-    application.listen(8080)
+    application.listen(8080, '0.0.0.0')
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
