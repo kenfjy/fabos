@@ -15,6 +15,7 @@ class Application(tornado.web.Application):
             (r"/", FileHandler),
             (r"/printer.*", PrinterHandler),
             (r"/confirm.*", ConfirmHandler),
+            (r"/printFile.*", PrinterHandler),
             (r"/uploads/^(.*)",tornado.web.StaticFileHandler, {"path": "./uploads"},),
         ]
         settings = dict(
@@ -71,7 +72,7 @@ class ConfirmHandler(tornado.web.RequestHandler):
         if f is None:
             self.redirect("/")
         if c is None:
-            self.redirect("/")
+            self.redirect("/printer")
         if p is None:
             self.redirect("/printer")
 
@@ -82,13 +83,37 @@ class ConfirmHandler(tornado.web.RequestHandler):
         if f is None:
             self.redirect("/")
         if c is None:
-            self.redirect("/")
+            self.redirect("/printer")
 
         p = self.get_argument("printer_selector")
         if p is None:
             self.redirect("/printer")
 
         self.write("you have chosen " + p)
+
+# handles printing confirmation
+class PrinterHandler(tornado.web.RequestHandler):
+    def get(self):
+        global c, f, p
+        if f is None:
+            self.redirect("/")
+        if c is None:
+            self.redirect("/printer")
+        if p is None:
+            self.redirect("/printer")
+
+        c.printFile(p, "static/uploads/" + f, "rml milling", {})
+
+    def post(self):
+        global c, f, p
+        if f is None:
+            self.redirect("/")
+        if c is None:
+            self.redirect("/printer")
+        if p is None:
+            self.redirect("/printer")
+
+        c.printFile(p, "static/uploads/" + f, "rml milling", {})
 
 # class PrintHandler(tornado.web.RequestHandler):
 #     def get(self):
