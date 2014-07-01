@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <title>fabos</title>
+        <link href="../assets/stylesheet/style.css" rel="stylesheet" type="text/css" media="all">
+    </head>
+    <body>
+        <div id="wrapper">
+            {% if filename %}
+                <p>You have already uploaded {{ filename }}</p>
+                <img src="{{ static_url("uploads/" + filename) }}" />
+            {% end %}
+            <form enctype="multipart/form-data" action="/printer" method="post">
+                <input type="file" name="up_file" />
+                <input type="submit" value="submit" />
+            </form>
+        </div><!-- div#wrapper -->
+    </body>
+</html>

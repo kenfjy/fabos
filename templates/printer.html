@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <title>fabos</title>
+        <link href="../assets/stylesheet/style.css" rel="stylesheet" type="text/css" media="all">
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="file">
+                <img src="{{ static_url("uploads/" + filename) }}" />
+                <p>{{ filename }}</p>
+            </div>
+            <div id="printers">
+                {% if printers %}
+                <form action="/confirm" method="post">
+                    <select name="printer_selector">
+                        {% if sel_printer %}
+                            {% for printer in printers %}
+                                {% if printer == sel_printer %}
+                                    <option selected="selected">{{ printer }}</option>
+                                {% else %}
+                                    <option>{{ printer }}</option>
+                                {% end %}
+                            {% end %}
+                        {% else %}
+                            {% for printer in printers %}
+                                <option>{{ printer }}</option>
+                            {% end %}
+                        {% end %}
+                    </select>
+                    <input type="submit" value="submit">
+                </form>
+                {% end %}
+            </div><!-- div#printers -->
+        </div><!-- div#wrapper -->
+    </body>
+</html>
