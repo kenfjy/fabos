@@ -14,14 +14,14 @@ h2 {
 }
 hr {
     height: 3px;
-    background-color: #0F0F0F;
+    background-color: black;
     margin: 20px 0;
 }
 div#wrapper {
     width: 540px;
     margin: 0 auto;
     padding: 30px;
-    border: 5px solid #0F0F0F;
+    border: 5px solid black;
     background-color: white;
 }
 div#wrapper img {
@@ -32,4 +32,11 @@ form {
     height: auto;
     overflow: hidden;
     margin-top: 30px;
+}
+input[type="submit"] {
+    font-size: 16px;
+    border: 0;
+    padding: 5px;
+    background-color: black;
+    color: white;
 }
