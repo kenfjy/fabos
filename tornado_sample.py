@@ -14,22 +14,8 @@ m_f = None
 # print file path
 p_f = None
 
-__UPLOADS__ = "static/uploads/"
-__TMP__ = "static/tmp/"
-
-class Application(tornado.web.Application):
-    def __init__(self):
-        handlers = [
-            (r"/", FileHandler),
-            (r"/printer.*", PrinterHandler),
-            (r"/confirm.*", ConfirmHandler),
-            (r"/uploads/^(.*)",tornado.web.StaticFileHandler, {"path": "./uploads"},),
-        ]
-        settings = dict(
-            template_path=os.path.join(os.path.dirname(__file__), "templates"),
-            static_path=os.path.join(os.path.dirname(__file__), "static"),
-            )
-        tornado.web.Application.__init__(self, handlers, **settings)
+__UPLOADS__ = "assets/uploads/"
+__TMP__ = "assets/tmp/"
 
 # handles files
 class FileHandler(tornado.web.RequestHandler):
@@ -57,7 +43,7 @@ class PrinterHandler(tornado.web.RequestHandler):
     def post(self):
         global c, p, u_f
         fileinfo = self.request.files['up_file'][0]
-        print "fileinfo is ", fileinfo
+        # print "fileinfo is ", fileinfo
         fname = fileinfo['filename']
         extn = os.path.splitext(fname)[1]
         cname = str(uuid.uuid4()) + extn
@@ -123,10 +109,34 @@ class ConfirmHandler(tornado.web.RequestHandler):
         print "path file: " + m_fpath
         print "rml file: " + p_fpath
 
-        c.printFile(p, "static/tmp/" + p_f, "rml milling", {})
+        c.enablePrinter(p)
+        c.printFile(p, __TMP__ + p_f, "rml milling", {})
 
-# class PrintHandler(tornado.web.RequestHandler):
-#     def get(self):
+class HeaderModule(tornado.web.UIModule):
+    def render(self):
+        return self.render_string("_part/header.html")
+
+class FooterModule(tornado.web.UIModule):
+    def render(self):
+        return self.render_string("_part/footer.html")
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r"/", FileHandler),
+            (r"/printer.*", PrinterHandler),
+            (r"/confirm.*", ConfirmHandler),
+            (r"/uploads/^(.*)",tornado.web.StaticFileHandler, {"path": "./uploads"},),
+        ]
+        settings = dict(
+            template_path=os.path.join(os.path.dirname(__file__), "templates"),
+            static_path=os.path.join(os.path.dirname(__file__), "assets"),
+            ui_modules={
+                "Header":HeaderModule, 
+                "Footer":FooterModule, 
+                },
+            )
+        tornado.web.Application.__init__(self, handlers, **settings)
 
 def main():
     global c, f, p

@@ -1,0 +1,16 @@
+html {
+    height: auto;
+    width: auto;
+}
+body {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    background-color: lightgray;
+    padding-top: 48px;
+    padding-bottom: 48px;
+}
+div#wrapper {
+    width: 640px;
+    margin: 0 auto;
+}

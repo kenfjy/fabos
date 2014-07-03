@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <meta charset="UTF-8">
-        <title>fabos</title>
-        <link href="../assets/stylesheet/style.css" rel="stylesheet" type="text/css" media="all">
-    </head>
-    <body>
-        <div id="wrapper">
+{% module Header() %}
+            <h1>fabos</h1>
             <img src="{{ static_url("uploads/" + filename) }}" />
             <p>{{ filepath }}</p>
             <p>printing with {{ printer }}</p>
             <form enctype="multipart/form-data" action="/confirm" method="post">
                 <input type="submit" value="MILL!" />
             </form>
-        </div><!-- div#wrapper -->
-    </body>
-</html>
+{% module Footer() %}

@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <meta charset="UTF-8">
-        <title>fabos</title>
-        <link href="../assets/stylesheet/style.css" rel="stylesheet" type="text/css" media="all">
-    </head>
-    <body>
-        <div id="wrapper">
+{% module Header() %}
+            <h1>fabos</h1>
             <div id="file">
                 <img src="{{ static_url("uploads/" + filename) }}" />
                 <p>{{ filename }}</p>
@@ -34,6 +26,4 @@
                 </form>
                 {% end %}
             </div><!-- div#printers -->
-        </div><!-- div#wrapper -->
-    </body>
-</html>
+{% module Footer() %}
