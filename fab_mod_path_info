@@ -1,9 +1,0 @@
-read fab_mod_fabisp_cmp.path
-   degrees of freedom: 2
-   units: mm mm 
-   nx: 1085, ny: 440
-   dx: 45.931759, dy: 18.626703
-   xmin: 0.000000, ymin: 0.000000
-   path start:
-   segments: 19, points: 584
-path time: 246 seconds, 4.1 minutes, 0.07 hours
