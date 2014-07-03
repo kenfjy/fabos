@@ -11,7 +11,7 @@
             <img src="{{ static_url("uploads/" + filename) }}" />
             <p>{{ filepath }}</p>
             <p>printing with {{ printer }}</p>
-            <form enctype="multipart/form-data" action="/confirm" method="get">
+            <form enctype="multipart/form-data" action="/confirm" method="post">
                 <input type="submit" value="MILL!" />
             </form>
         </div><!-- div#wrapper -->

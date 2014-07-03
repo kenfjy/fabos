@@ -7,7 +7,7 @@ import os, uuid, cups
 c = None
 # printer name
 p = None
-# uploaded file path
+# uploaded file name
 u_f = None
 # middle file path
 m_f = None
@@ -15,7 +15,7 @@ m_f = None
 p_f = None
 
 __UPLOADS__ = "static/uploads/"
-__TMP__ = "static/tmp"
+__TMP__ = "static/tmp/"
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -82,20 +82,6 @@ class ConfirmHandler(tornado.web.RequestHandler):
             self.redirect("/")
         if c is None:
             self.redirect("/printer")
-        if p is None:
-            self.redirect("/printer")
-
-        fpath = os.path.join(os.path.dirname(__file__), __UPLOADS__ + u_f)
-        print fpath
-
-        c.printFile(p, "static/uploads/" + u_f, "rml milling", {})
-
-    def post(self):
-        global c, p, u_f
-        if u_f is None:
-            self.redirect("/")
-        if c is None:
-            self.redirect("/printer")
 
         p = self.get_argument("printer_selector")
         if p is None:
@@ -104,6 +90,40 @@ class ConfirmHandler(tornado.web.RequestHandler):
         fpath = os.path.join(os.path.dirname(__file__), __UPLOADS__ + u_f)
 
         self.render("confirm.html", filepath=fpath, filename=u_f, printer = p)
+
+    def post(self):
+        global c, p, u_f
+        if u_f is None:
+            self.redirect("/")
+        if c is None:
+            self.redirect("/printer")
+        if p is None:
+            self.redirect("/printer")
+        fpath = os.path.join(os.path.dirname(__file__), __UPLOADS__ + u_f)
+
+        global m_f, p_f
+        m_f = str(uuid.uuid4()) + ".path"
+        p_f = str(uuid.uuid4()) + ".rml"
+        m_fpath = os.path.join(os.path.dirname(__file__), __TMP__ + m_f)
+        p_fpath = os.path.join(os.path.dirname(__file__), __TMP__ + p_f)
+
+        # ( png file path / path file path / error pixels / diameter / offsets / overlap / intensity )
+        command = "png_path \"" + fpath + "\" \"" + m_fpath + "\" 1.1 0.25 1 0.5 0.5"
+        print command
+        ret = os.system(command)
+        print ret
+
+        # ( path file path / rml file path / speed / jog / xmin / ymin )
+        command = "path_rml \"" + m_fpath + "\" \"" + p_fpath + "\" 100.00 4 1 1 20 20"
+        print command
+        ret = os.system(command)
+        print ret
+
+        print "png file: " + fpath
+        print "path file: " + m_fpath
+        print "rml file: " + p_fpath
+
+        c.printFile(p, "static/tmp/" + p_f, "rml milling", {})
 
 # class PrintHandler(tornado.web.RequestHandler):
 #     def get(self):

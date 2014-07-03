@@ -14,7 +14,7 @@
             </div>
             <div id="printers">
                 {% if printers %}
-                <form action="/confirm" method="post">
+                <form action="/confirm" method="get">
                     <select name="printer_selector">
                         {% if sel_printer %}
                             {% for printer in printers %}
