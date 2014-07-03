@@ -1,11 +1,16 @@
 {% module Header() %}
-            <h1>fabos</h1>
+            <h2>Select File to Mill</h2>
             {% if filename %}
                 <p>You have already uploaded {{ filename }}</p>
                 <img src="{{ static_url("uploads/" + filename) }}" />
+                <form enctype="multipart/form-data" action="/printer" method="get">
+                    <input type="submit" value="Mill this image" />
+                </form>
+                <hr>
+                <p>If you would like to select another file,</p>
             {% end %}
             <form enctype="multipart/form-data" action="/printer" method="post">
                 <input type="file" name="up_file" />
-                <input type="submit" value="submit" />
+                <input type="submit" value="Mill this image" />
             </form>
 {% module Footer() %}

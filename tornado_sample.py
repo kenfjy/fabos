@@ -86,6 +86,13 @@ class ConfirmHandler(tornado.web.RequestHandler):
         if p is None:
             self.redirect("/printer")
         fpath = os.path.join(os.path.dirname(__file__), __UPLOADS__ + u_f)
+        
+      #  p = self.get_argument("printer_selector")
+      #  error_pixels = 1.1
+      #  diameter = 0.25
+      #  offsets = 1
+      #  overlap = 0.5
+      #  intensity = 0.5
 
         global m_f, p_f
         m_f = str(uuid.uuid4()) + ".path"

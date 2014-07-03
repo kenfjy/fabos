@@ -1,16 +1,35 @@
 html {
-    height: auto;
-    width: auto;
-}
-body {
     width: 100%;
     height: auto;
     min-height: 100%;
-    background-color: lightgray;
-    padding-top: 48px;
-    padding-bottom: 48px;
+}
+body {
+    height: auto;
+    width: auto;
+    background-color: #F0F0F0;
+    padding: 25px 0;
+}
+h2 {
+    margin-top: 0;
+}
+hr {
+    height: 3px;
+    background-color: #0F0F0F;
+    margin: 20px 0;
 }
 div#wrapper {
-    width: 640px;
+    width: 540px;
     margin: 0 auto;
+    padding: 30px;
+    border: 5px solid #0F0F0F;
+    background-color: white;
+}
+div#wrapper img {
+    width: 100%;
+}
+form {
+    display: inline-block;
+    height: auto;
+    overflow: hidden;
+    margin-top: 30px;
 }
