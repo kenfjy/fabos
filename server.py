@@ -119,7 +119,9 @@ class ConfirmHandler(tornado.web.RequestHandler):
         print "path file: " + m_fpath
         print "rml file: " + p_fpath
 
+        c.disablePrinter(p)
         c.enablePrinter(p)
+        print "enabled printer"
         c.printFile(p, __TMP__ + p_f, "rml milling", {})
 
 class HeaderModule(tornado.web.UIModule):
