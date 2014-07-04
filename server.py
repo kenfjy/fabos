@@ -42,14 +42,17 @@ class PrinterHandler(tornado.web.RequestHandler):
 
     def post(self):
         global c, p, u_f
-        fileinfo = self.request.files['up_file'][0]
-        # print "fileinfo is ", fileinfo
-        fname = fileinfo['filename']
-        extn = os.path.splitext(fname)[1]
-        cname = str(uuid.uuid4()) + extn
-        fh = open(__UPLOADS__ + cname, 'w')
-        fh.write(fileinfo['body'])
-        u_f = cname
+        if self.request.files.has_key('up_file'):
+            fileinfo = self.request.files['up_file'][0]
+            # print "fileinfo is ", fileinfo
+            fname = fileinfo['filename']
+            extn = os.path.splitext(fname)[1]
+            cname = str(uuid.uuid4()) + extn
+            fh = open(__UPLOADS__ + cname, 'w')
+            fh.write(fileinfo['body'])
+            u_f = cname
+        elif u_f is None:
+            self.redirect("/")
 
         fpath = os.path.join(os.path.dirname(__file__), __UPLOADS__ + u_f)
         print fpath
