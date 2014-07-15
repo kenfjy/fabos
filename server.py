@@ -3,8 +3,6 @@ import tornado.web
 import tornado.options
 import os, uuid, cups
 
-# cups object
-c = None
 # printer name
 p = None
 # uploaded file name
@@ -30,18 +28,17 @@ class FileHandler(tornado.web.RequestHandler):
 # handles printer check
 class PrinterHandler(tornado.web.RequestHandler):
     def get(self):
-        global c, p, u_f
+        global p, u_f
         if u_f is None: 
             self.redirect("/")
 
-        if c is None:
-            c = cups.Connection()
+        c = cups.Connection()
         printers = c.getPrinters()
         
         self.render("printer.html", printers=printers, sel_printer=p, filename = u_f)
 
     def post(self):
-        global c, p, u_f
+        global p, u_f
         if self.request.files.has_key('up_file'):
             fileinfo = self.request.files['up_file'][0]
             # print "fileinfo is ", fileinfo
@@ -57,8 +54,7 @@ class PrinterHandler(tornado.web.RequestHandler):
         fpath = os.path.join(os.path.dirname(__file__), __UPLOADS__ + u_f)
         print fpath
 
-        if c is None:
-            c = cups.Connection()
+        c = cups.Connection()
         printers = c.getPrinters()
 
         self.render("printer.html", printers=printers, sel_printer=p, filename = u_f)
@@ -66,11 +62,9 @@ class PrinterHandler(tornado.web.RequestHandler):
 # handles printing confirmation
 class ConfirmHandler(tornado.web.RequestHandler):
     def get(self):
-        global c, p, u_f
+        global p, u_f
         if u_f is None:
             self.redirect("/")
-        if c is None:
-            self.redirect("/printer")
 
         p = self.get_argument("printer_selector")
         if p is None:
@@ -81,11 +75,9 @@ class ConfirmHandler(tornado.web.RequestHandler):
         self.render("confirm.html", filepath=fpath, filename=u_f, printer = p)
 
     def post(self):
-        global c, p, u_f
+        global p, u_f
         if u_f is None:
             self.redirect("/")
-        if c is None:
-            self.redirect("/printer")
         if p is None:
             self.redirect("/printer")
         fpath = os.path.join(os.path.dirname(__file__), __UPLOADS__ + u_f)
@@ -119,7 +111,7 @@ class ConfirmHandler(tornado.web.RequestHandler):
         print "path file: " + m_fpath
         print "rml file: " + p_fpath
 
-        c.disablePrinter(p)
+        c = cups.Connection()
         c.enablePrinter(p)
         print "enabled printer"
         c.printFile(p, __TMP__ + p_f, "rml milling", {})
@@ -151,8 +143,7 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, handlers, **settings)
 
 def main():
-    global c, f, p
-    c = None
+    global f, p
     f = None
     p = None
 
